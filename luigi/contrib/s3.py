@@ -115,36 +115,37 @@ class S3Client(FileSystem):
         if self._s3:
             return self._s3
 
-        aws_access_key_id = options.get('aws_access_key_id')
-        aws_secret_access_key = options.get('aws_secret_access_key')
+        # aws_access_key_id = options.get('aws_access_key_id')
+        # aws_secret_access_key = options.get('aws_secret_access_key')
 
         # Removing key args would break backwards compability
-        role_arn = options.get('aws_role_arn')
-        role_session_name = options.get('aws_role_session_name')
+        # role_arn = options.get('aws_role_arn')
+        # role_session_name = options.get('aws_role_session_name')
 
-        aws_session_token = None
+        # aws_session_token = None
 
-        if role_arn and role_session_name:
-            sts_client = boto3.client('sts')
-            assumed_role = sts_client.assume_role(RoleArn=role_arn,
-                                                  RoleSessionName=role_session_name)
-            aws_secret_access_key = assumed_role['Credentials'].get(
-                'SecretAccessKey')
-            aws_access_key_id = assumed_role['Credentials'].get('AccessKeyId')
-            aws_session_token = assumed_role['Credentials'].get('SessionToken')
+        # Boto3 is supposed to do this in the background
+        # if role_arn and role_session_name:
+        #     sts_client = boto3.client('sts')
+        #     assumed_role = sts_client.assume_role(RoleArn=role_arn,
+        #                                           RoleSessionName=role_session_name)
+        #     aws_secret_access_key = assumed_role['Credentials'].get(
+        #         'SecretAccessKey')
+        #     aws_access_key_id = assumed_role['Credentials'].get('AccessKeyId')
+        #     aws_session_token = assumed_role['Credentials'].get('SessionToken')
 
-        for key in ['aws_access_key_id', 'aws_secret_access_key',
-                    'aws_role_session_name', 'aws_role_arn']:
-            if key in options:
-                options.pop(key)
+        # for key in ['aws_access_key_id', 'aws_secret_access_key',
+        #             'aws_role_session_name', 'aws_role_arn']:
+        #     if key in options:
+        #         options.pop(key)
 
         # At this stage, if no credentials provided, boto3 would handle their resolution for us
         # For finding out about the order in which it tries to find these credentials
         # please see here details http://boto3.readthedocs.io/en/latest/guide/configuration.html#configuring-credentials
         self._s3 = boto3.resource('s3',
-                                  aws_access_key_id=aws_access_key_id,
-                                  aws_secret_access_key=aws_secret_access_key,
-                                  aws_session_token=aws_session_token,
+        #                           aws_access_key_id=aws_access_key_id,
+        #                           aws_secret_access_key=aws_secret_access_key,
+        #                           aws_session_token=aws_session_token,
                                   **options)
         return self._s3
 
