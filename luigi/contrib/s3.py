@@ -97,7 +97,6 @@ class S3Client(FileSystem):
     def __init__(self, aws_access_key_id=None, aws_secret_access_key=None,
                  **kwargs):
         options = self._get_s3_config()
-        print("\n\n\n\n\n\n\n\n\n\n\n\n\nOPTIONS: {}\n\n\n\n\n\n\n\n\n\n\n\n".format(options))
         options.update(kwargs)
         if aws_access_key_id:
             options['aws_access_key_id'] = aws_access_key_id
